@@ -9,21 +9,6 @@ import (
 	"golang.org/x/net/html"
 )
 
-// A MatchFunc returns if a html node matches certain condition.
-type MatchFunc func(*html.Node) bool
-
-// Walk calls fn with n and all the children under n. If the fn
-// returns true, it stops searching the node's children.
-func Walk(n *html.Node, fn MatchFunc) {
-	if fn(n) {
-		return
-	}
-
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		Walk(c, fn)
-	}
-}
-
 // Attr returns the value of keyed attribute under n. If no attribute
 // matches the key, an empty string is returned.
 func Attr(n *html.Node, key string) string {

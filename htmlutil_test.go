@@ -1,6 +1,7 @@
 package htmlutil
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 
@@ -22,33 +23,12 @@ const tmpl = `
 
 var doc, _ = html.Parse(strings.NewReader(tmpl))
 
-func TestWalk(t *testing.T) {
-	e := []string{"html", "head", "body", "meta", "title", "h1", "p"}
-	m := make(map[string]bool)
+func ExampleAttr() {
+	frag := `<html lang="en"></html>`
+	n, _ := html.Parse(strings.NewReader(frag)) // ignore error
 
-	Walk(doc, func(n *html.Node) bool {
-		m[n.Data] = true
-		return false
-	})
-
-	for _, s := range e {
-		if !m[s] {
-			t.Errorf("Walk failed. element %s not walked", s)
-		}
-	}
-
-	// should stop walking through the children
-	m = make(map[string]bool)
-	Walk(doc, func(n *html.Node) bool {
-		m[n.Data] = true
-		return IsElement(n, "body")
-	})
-
-	for _, s := range []string{"h1", "p"} {
-		if m[s] {
-			t.Error("Walk failed. body's children was walked")
-		}
-	}
+	fmt.Println(Attr(n.FirstChild, "lang"))
+	// Output: en
 }
 
 func TestAttr(t *testing.T) {
@@ -83,8 +63,16 @@ func TestHasText(t *testing.T) {
 	})
 
 	if x.Type != html.TextNode || x.Data != "Hello World!" {
-		t.Error("HasText failed. node type: %v, node data: %s", x.Type, x.Data)
+		t.Errorf("HasText failed. node type: %v, node data: %s", x.Type, x.Data)
 	}
+}
+
+func ExampleIsElement() {
+	frag := "<html></html>"
+	n, _ := html.Parse(strings.NewReader(frag)) // ignore error
+
+	fmt.Println(IsElement(n.FirstChild, "html"))
+	// Output: true
 }
 
 func TestIsElement(t *testing.T) {
@@ -92,6 +80,14 @@ func TestIsElement(t *testing.T) {
 	if !IsElement(n, "html") {
 		t.Errorf("IsElement failed. node type: %v, node data: %s", n.Type, n.Data)
 	}
+}
+
+func ExampleText() {
+	frag := "<p>Hello World</p>"
+	n, _ := html.Parse(strings.NewReader(frag)) // ignore error
+
+	fmt.Println(Text(n))
+	// Output: Hello World
 }
 
 func TestText(t *testing.T) {
@@ -103,6 +99,15 @@ func TestText(t *testing.T) {
 		}
 		return
 	})
+}
+
+func ExampleInt() {
+	frag := "<p>2018</p>"
+	n, _ := html.Parse(strings.NewReader(frag)) // ignore error
+
+	i, _ := Int(n)
+	fmt.Println(i)
+	// Output: 2018
 }
 
 func TestInt(t *testing.T) {
