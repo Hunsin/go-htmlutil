@@ -6,4 +6,4 @@ go:
   - 1.10.x
 
 script:
-  - go test -v -cover github.com/Hunsin/htmlutil
+  - go test -v -cover github.com/Hunsin/go-htmlutil

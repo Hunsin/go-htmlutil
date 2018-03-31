@@ -1,8 +1,10 @@
+// Copyright 2018 Tsai, Hsiao-Chieh. All rights reserved.
+// Use of this source code is governed by a MIT-style license
+// that can be found in the LICENSE file.
+
 package htmlutil
 
 import (
-	"fmt"
-	"strings"
 	"testing"
 
 	"golang.org/x/net/html"
@@ -41,32 +43,6 @@ func TestFirst(t *testing.T) {
 			t.Errorf("First failed. head's children or sibling %s was walked", e)
 		}
 	}
-}
-
-func ExampleWalk() {
-	s := `
-	<div id="first">
-		<div id="child"></div>
-	</div>
-	<div id="sibling"></div>`
-
-	n, err := html.Parse(strings.NewReader(s))
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fn := func(n *html.Node) bool {
-		found := IsElement(n, "div")
-		if found {
-			fmt.Println(Attr(n, "id"))
-		}
-		return found
-	}
-
-	Walk(n, fn)
-	// Output:
-	// first
-	// sibling
 }
 
 func TestWalk(t *testing.T) {

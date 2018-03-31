@@ -1,8 +1,10 @@
+// Copyright 2018 Tsai, Hsiao-Chieh. All rights reserved.
+// Use of this source code is governed by a MIT-style license
+// that can be found in the LICENSE file.
+
 package htmlutil
 
-import (
-	"golang.org/x/net/html"
-)
+import "golang.org/x/net/html"
 
 // A MatchFunc is a function which returns if a html node matches
 // certain condition.

@@ -1,7 +1,10 @@
+// Copyright 2018 Tsai, Hsiao-Chieh. All rights reserved.
+// Use of this source code is governed by a MIT-style license
+// that can be found in the LICENSE file.
+
 package htmlutil
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 
@@ -22,14 +25,6 @@ const tmpl = `
 	</html>`
 
 var doc, _ = html.Parse(strings.NewReader(tmpl))
-
-func ExampleAttr() {
-	frag := `<html lang="en"></html>`
-	n, _ := html.Parse(strings.NewReader(frag)) // ignore error
-
-	fmt.Println(Attr(n.FirstChild, "lang"))
-	// Output: en
-}
 
 func TestAttr(t *testing.T) {
 	Walk(doc, func(n *html.Node) (found bool) {
@@ -67,27 +62,11 @@ func TestHasText(t *testing.T) {
 	}
 }
 
-func ExampleIsElement() {
-	frag := "<html></html>"
-	n, _ := html.Parse(strings.NewReader(frag)) // ignore error
-
-	fmt.Println(IsElement(n.FirstChild, "html"))
-	// Output: true
-}
-
 func TestIsElement(t *testing.T) {
 	n := doc.LastChild
 	if !IsElement(n, "html") {
 		t.Errorf("IsElement failed. node type: %v, node data: %s", n.Type, n.Data)
 	}
-}
-
-func ExampleText() {
-	frag := "<p>Hello World</p>"
-	n, _ := html.Parse(strings.NewReader(frag)) // ignore error
-
-	fmt.Println(Text(n))
-	// Output: Hello World
 }
 
 func TestText(t *testing.T) {
@@ -99,15 +78,6 @@ func TestText(t *testing.T) {
 		}
 		return
 	})
-}
-
-func ExampleInt() {
-	frag := "<p>2018</p>"
-	n, _ := html.Parse(strings.NewReader(frag)) // ignore error
-
-	i, _ := Int(n)
-	fmt.Println(i)
-	// Output: 2018
 }
 
 func TestInt(t *testing.T) {
