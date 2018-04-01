@@ -31,12 +31,12 @@ func ExampleIsElement() {
 }
 
 func ExampleText() {
-	frag := "<p>Hello World</p>"
+	frag := "<p>Hello <strong>World</strong></p>"
 	n, _ := html.Parse(strings.NewReader(frag)) // ignore error
 
 	txt := htmlutil.Text(n)
 	fmt.Println(txt)
-	// Output: Hello World
+	// Output: Hello
 }
 
 func ExampleInt() {

@@ -20,7 +20,7 @@ const tmpl = `
 	</head>
 	<body>
 		<h1 class="greeting" id="title">Hello World!</h1>
-		<p>2018</p>
+		<p>2018<span>2019</span></p>
 	</body>
 	</html>`
 

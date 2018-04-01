@@ -51,7 +51,7 @@ func IsElement(n *html.Node, data string) bool {
 // html.TextNode was found, it returns empty string.
 func Text(n *html.Node) string {
 	var txt string
-	Walk(n, func(n *html.Node) (found bool) {
+	First(n, func(n *html.Node) (found bool) {
 		if found = (n.Type == html.TextNode); found {
 			txt = n.Data
 		}

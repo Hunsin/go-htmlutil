@@ -5,4 +5,9 @@ Now, you may need some utility functions to help you extract the data.
 
 `htmlutil` is a lightweight, simple package that works with html nodes.
 
+## Install
+```sh
+$ go get -u github.com/Hunsin/go-htmlutil
+```
+
 Documents and examples can be found in [GoDoc](https://godoc.org/github.com/Hunsin/go-htmlutil).
