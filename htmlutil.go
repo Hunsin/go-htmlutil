@@ -65,7 +65,7 @@ func Text(n *html.Node) string {
 func Int(n *html.Node) (int, error) {
 	str := Text(n)
 	if str == "" {
-		return 0, errors.New("htmlparser: no number was found")
+		return 0, errors.New("htmlutil: no number was found")
 	}
 	return strconv.Atoi(str)
 }
