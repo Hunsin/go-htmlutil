@@ -60,12 +60,25 @@ func Text(n *html.Node) string {
 	return txt
 }
 
-// Int returns the number of n's first text child node. If no
-// html.TextNode was found, it returns error.
+// Int returns the first integer it found in n and n's children.
+// If no integer was found, it returns error.
 func Int(n *html.Node) (int, error) {
-	str := Text(n)
-	if str == "" {
+	var i int
+	var found bool
+	var err error
+
+	First(n, func(n *html.Node) bool {
+		if n.Type == html.TextNode {
+			if i, err = strconv.Atoi(n.Data); err == nil {
+				found = true
+				return true
+			}
+		}
+		return false
+	})
+
+	if !found {
 		return 0, errors.New("htmlutil: no number was found")
 	}
-	return strconv.Atoi(str)
+	return i, nil
 }
