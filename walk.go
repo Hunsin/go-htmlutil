@@ -13,19 +13,18 @@ type MatchFunc func(*html.Node) bool
 // First works like Walk(n, fn) but returns the node once fn(node)
 // returns true.
 //
-// Consider a MatchFunc, fn looks like this:
+// To compare First(), Last() and Walk(), consider a MatchFunc,
+// fn looks like this:
 // 	func(n *html.Node) bool {
-// 		return IsElement("li")
+// 		return IsElement(n, "li")
 // 	}
 //
-// And a HTML fragment looks like this:
-// 	<ul>
-//	  <li>...</li>	<-- First(n, fn) stops here
-//	  <li>...</li>
-//	  <li>...</li>	<-- Walk(n, fn) loops all the <li></li> elements
+// Base on following HTML fragment, they work as:
+// 	<ul>             | First(n, fn) | Last(n, fn) | Walk(n, fn) |
+//	  <li>...</li>   | return node  | not walked  | walked      |
+//	  <li>...</li>   | not walked   | not walked  | walked      |
+//	  <li>...</li>   | not walked   | return node | walked      |
 // 	</ul>
-//
-// Both First(n, fn) and Walk(n, fn) won't loop the children under <li></li>
 func First(n *html.Node, fn MatchFunc) *html.Node {
 	if fn(n) {
 		return n
@@ -33,6 +32,21 @@ func First(n *html.Node, fn MatchFunc) *html.Node {
 
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
 		if found := First(c, fn); found != nil {
+			return found
+		}
+	}
+	return nil
+}
+
+// Last works like First(n, fn) but searches nodes in different direction.
+// It returns the last matched node in the node tree.
+func Last(n *html.Node, fn MatchFunc) *html.Node {
+	if fn(n) {
+		return n
+	}
+
+	for c := n.LastChild; c != nil; c = c.PrevSibling {
+		if found := Last(c, fn); found != nil {
 			return found
 		}
 	}

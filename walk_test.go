@@ -11,33 +11,46 @@ import (
 )
 
 var (
-	elements = []string{"html", "head", "meta", "title", "body", "h1", "p"}
+	elements = []string{"html", "head", "meta", "title", "body", "h1", "p", "span"}
 	walked   = make(map[string]bool)
 )
 
-func TestFirst(t *testing.T) {
-	First(doc, func(n *html.Node) bool {
-		walked[n.Data] = true
-		return false
-	})
-
+// checkWalked validates if elements are all walked by fn. If not, it
+// calls t.Error.
+func checkWalked(t *testing.T, fn string) {
 	for _, e := range elements {
 		if !walked[e] {
-			t.Errorf("First failed. element %s not walked", e)
+			t.Errorf("%s failed. element %s not walked", fn, e)
 		}
 	}
+}
 
-	// should stop walking through the children and siblings
+// recoder reallocates a new map to walked and returns a MatchFunc which
+// records walked elements in the map. The stop should be a element name.
+// If stop is specified, the func returns IsElement(n, stop).
+func recoder(stop string) MatchFunc {
 	walked = make(map[string]bool)
-	head := First(doc, func(n *html.Node) bool {
-		walked[n.Data] = true
-		return IsElement(n, "head")
-	})
 
+	return func(n *html.Node) bool {
+		walked[n.Data] = true
+
+		if stop != "" {
+			return IsElement(n, stop)
+		}
+		return false
+	}
+}
+
+func TestFirst(t *testing.T) {
+	First(doc, recoder(""))
+	checkWalked(t, "First")
+
+	head := First(doc, recoder("head"))
 	if !IsElement(head, "head") {
 		t.Errorf("First failed. got: %s, want: head", head.Data)
 	}
 
+	// should stop walking through the children and siblings
 	for _, e := range elements[2:] {
 		if walked[e] {
 			t.Errorf("First failed. head's children or sibling %s was walked", e)
@@ -45,25 +58,28 @@ func TestFirst(t *testing.T) {
 	}
 }
 
-func TestWalk(t *testing.T) {
-	Walk(doc, func(n *html.Node) bool {
-		walked[n.Data] = true
-		return false
-	})
+func TestLast(t *testing.T) {
+	Last(doc, recoder(""))
+	checkWalked(t, "Last")
 
-	for _, e := range elements {
-		if !walked[e] {
-			t.Errorf("Walk failed. element %s not walked", e)
-		}
+	span := Last(doc, recoder("span"))
+	if !IsElement(span, "span") {
+		t.Errorf("Last failed. got: %s, want: span", span.Data)
 	}
 
-	// should stop walking through the children
-	walked = make(map[string]bool)
-	Walk(doc, func(n *html.Node) bool {
-		walked[n.Data] = true
-		return IsElement(n, "head")
-	})
+	for _, e := range []string{"head", "meta", "title", "h1", "2019"} {
+		if walked[e] {
+			t.Errorf("Last failed. Element %s was walked", e)
+		}
+	}
+}
 
+func TestWalk(t *testing.T) {
+	Walk(doc, recoder(""))
+	checkWalked(t, "Walk")
+
+	// should stop walking through the head's children
+	Walk(doc, recoder("head"))
 	for _, e := range elements[2:4] {
 		if walked[e] {
 			t.Errorf("Walk failed. head's children %s were walked", e)
