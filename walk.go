@@ -16,7 +16,7 @@ type MatchFunc func(*html.Node) bool
 // To compare First(), Last() and Walk(), consider a MatchFunc,
 // fn looks like this:
 // 	func(n *html.Node) bool {
-// 		return IsElement(n, "li")
+// 	    return htmlutil.IsElement(n, "li")
 // 	}
 //
 // Base on following HTML fragment, they work as:

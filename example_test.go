@@ -49,11 +49,12 @@ func ExampleInt() {
 }
 
 func ExampleWalk() {
-	n, err := html.Parse(strings.NewReader(`
-		<div id="first">
-			<div id="child"></div>
-		</div>
-		<div id="sibling"></div>`))
+	frag := `
+	  <div id="first">
+	    <div id="child"></div>
+	  </div>
+	  <div id="sibling"></div>`
+	n, err := html.Parse(strings.NewReader(frag))
 	if err != nil {
 		fmt.Println(err)
 	}
