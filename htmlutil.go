@@ -82,3 +82,26 @@ func Int(n *html.Node) (int, error) {
 	}
 	return i, nil
 }
+
+// Float64 returns the first number it found in n and n's children.
+// If no number was found, it returns error.
+func Float64(n *html.Node) (float64, error) {
+	var f float64
+	var found bool
+	var err error
+
+	First(n, func(n *html.Node) bool {
+		if n.Type == html.TextNode {
+			if f, err = strconv.ParseFloat(n.Data, 64); err == nil {
+				found = true
+				return true
+			}
+		}
+		return false
+	})
+
+	if !found {
+		return 0, errors.New("htmlutil: no number was found")
+	}
+	return f, nil
+}

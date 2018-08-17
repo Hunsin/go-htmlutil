@@ -20,7 +20,7 @@ const tmpl = `
 	</head>
 	<body>
 		<h1 class="greeting" id="title">Hello World!</h1>
-		<p>2018<span>2019</span></p>
+		<p>2018.8<span>2020</span></p>
 	</body>
 	</html>`
 
@@ -87,8 +87,23 @@ func TestInt(t *testing.T) {
 			if err != nil {
 				t.Fatal("Int failed:", err)
 			}
-			if i != 2018 {
-				t.Errorf("Int failed. got %d, want: 2018", i)
+			if i != 2020 {
+				t.Errorf("Int failed. got %d, want: 2020", i)
+			}
+		}
+		return
+	})
+}
+
+func TestFloat64(t *testing.T) {
+	Walk(doc, func(n *html.Node) (found bool) {
+		if found = IsElement(n, "p"); found {
+			f, err := Float64(n)
+			if err != nil {
+				t.Fatal("Float64 failed:", err)
+			}
+			if f != 2018.8 {
+				t.Errorf("Float64 failed. got %f, want: 2018.8", f)
 			}
 		}
 		return
