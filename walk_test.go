@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	elements = []string{"html", "head", "meta", "title", "body", "h1", "p", "span"}
+	elements = []string{"html", "head", "meta", "title", "body", "h1", "p", "b", "span"}
 	walked   = make(map[string]bool)
 )
 
