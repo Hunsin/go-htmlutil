@@ -3,6 +3,7 @@ package htmlutil
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
 	"golang.org/x/net/html"
 )
@@ -13,7 +14,7 @@ func number(node *html.Node, fn func(string) error, numType string) error {
 	var found bool
 
 	First(node, func(n *html.Node) bool {
-		found = (n.Type == html.TextNode && fn(n.Data) == nil)
+		found = (n.Type == html.TextNode && fn(strings.TrimSpace(n.Data)) == nil)
 		return found
 	})
 
