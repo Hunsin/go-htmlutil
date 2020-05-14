@@ -124,7 +124,7 @@ func TestGetElementsByClassName(t *testing.T) {
 		if fmt.Sprint(item) != "li.item.list-item" {
 			t.Fatal("GetElementsByClassName failed; unexpected child element:", item)
 		}
-		got = append(got, item.InnerText())
+		got = append(got, item.TextContent())
 	}
 
 	if !reflect.DeepEqual(got, want) {
@@ -160,7 +160,7 @@ func TestGetElementsByTagName(t *testing.T) {
 		if h2.TagName() != "H2" {
 			t.Fatalf("GetElementsByTagName failed; got: %s, want: %s", h2, "H2")
 		}
-		got = append(got, h2.InnerText())
+		got = append(got, h2.TextContent())
 	}
 
 	if !reflect.DeepEqual(got, want) {

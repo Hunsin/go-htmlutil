@@ -35,17 +35,8 @@ func TestFirstElementChild(t *testing.T) {
 
 	elm = elm.FirstElementChild()
 	want = "Article Title"
-	if txt := elm.InnerText(); txt != want {
-		t.Errorf("FirstElementChild failed; got innerText: %s, want: %s", txt, want)
-	}
-}
-
-func TestInnerText(t *testing.T) {
-	want := "Coffee\nTea\nMilk\nCoke"
-	if got := doc.GetElementByID("drinks").InnerText(); got != want {
-		t.Error("InnerText failed")
-		t.Log("got: ", got)
-		t.Log("want:", want)
+	if txt := elm.TextContent(); txt != want {
+		t.Errorf("FirstElementChild failed; got textContent: %s, want: %s", txt, want)
 	}
 }
 
@@ -68,8 +59,8 @@ func TestLastElementChild(t *testing.T) {
 
 	main := doc.GetElementsByTagName("main")[0]
 	want = "Coke"
-	if txt := main.LastElementChild().LastElementChild().LastElementChild().InnerText(); txt != want {
-		t.Errorf("LastElementChild failed; got innerText: %s, want: %s", txt, want)
+	if txt := main.LastElementChild().LastElementChild().LastElementChild().TextContent(); txt != want {
+		t.Errorf("LastElementChild failed; got textContent: %s, want: %s", txt, want)
 	}
 }
 
@@ -77,7 +68,7 @@ func TestNextElementSibling(t *testing.T) {
 	li := doc.GetElementByID("drinks").FirstElementChild()
 	txt := []string{"Coffee", "Tea", "Milk", "Coke"}
 	for ; li != nil; li = li.NextElementSibling() {
-		if li.TagName() != "LI" || li.InnerText() != txt[0] {
+		if li.TagName() != "LI" || li.TextContent() != txt[0] {
 			t.Error("NextElementSibling failed")
 		}
 		txt = txt[1:]
@@ -104,7 +95,7 @@ func TestPreviousElementSibling(t *testing.T) {
 	li := doc.GetElementByID("drinks").LastElementChild()
 	txt := []string{"Coke", "Milk", "Tea", "Coffee"}
 	for ; li != nil; li = li.PreviousElementSibling() {
-		if li.TagName() != "LI" || li.InnerText() != txt[0] {
+		if li.TagName() != "LI" || li.TextContent() != txt[0] {
 			t.Error("NextElementSibling failed")
 		}
 		txt = txt[1:]

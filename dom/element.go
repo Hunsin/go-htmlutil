@@ -9,6 +9,8 @@ import (
 
 // An Element represents the HTML DOM element.
 type Element interface {
+	Node
+
 	Children() []Element
 	ClassList() []string
 	ClassName() string
@@ -16,7 +18,6 @@ type Element interface {
 	GetAttribute(string) string
 	GetElementsByClassName(string) []Element
 	GetElementsByTagName(string) []Element
-	InnerText() string
 	ID() string
 	LastElementChild() Element
 	NextElementSibling() Element
@@ -44,19 +45,6 @@ func (d dom) FirstElementChild() Element {
 
 func (d dom) GetAttribute(attr string) string {
 	return util.Attr(d.Node, attr)
-}
-
-func (d dom) InnerText() string {
-	var ss []string
-	util.Walk(d.Node, func(n *html.Node) bool {
-		if n.Type == html.TextNode {
-			if s := strings.Trim(n.Data, "\n\t "); len(s) > 0 {
-				ss = append(ss, n.Data)
-			}
-		}
-		return util.IsElement(n, "script") || util.IsElement(n, "style")
-	})
-	return strings.Join(ss, "\n")
 }
 
 func (d dom) ID() string {

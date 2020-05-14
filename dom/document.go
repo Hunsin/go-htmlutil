@@ -9,6 +9,8 @@ import (
 )
 
 type Document interface {
+	Node
+
 	Body() Element
 	Children() []Element
 	GetElementByID(id string) Element
