@@ -1,13 +1,14 @@
-# go-htmlutil [![Build Status](https://travis-ci.org/Hunsin/go-htmlutil.svg?branch=master)](https://travis-ci.org/Hunsin/go-htmlutil) [![GoDoc](https://godoc.org/github.com/Hunsin/go-htmlutil?status.svg)](https://godoc.org/github.com/Hunsin/go-htmlutil)
+# go-htmlutil [![Build Status](https://travis-ci.org/Hunsin/go-htmlutil.svg?branch=master)](https://travis-ci.org/Hunsin/go-htmlutil) [![PkgGoDev](https://pkg.go.dev/badge/github.com/Hunsin/go-htmlutil)](https://pkg.go.dev/github.com/Hunsin/go-htmlutil)
 
-Thanks to [golang.org/x/net/html](https://godoc.org/golang.org/x/net/html), parsing HTML becomes easy in Go.
-Now, you may need some utility functions to help you extract the data.
+## Package htmlutil
+`htmlutil` is a lightweight, simple package that provides utility working with package [golang.org/x/net/html](https://pkg.go.dev/golang.org/x/net/html).
 
-`htmlutil` is a lightweight, simple package that works with html nodes.
+## Package dom
+`dom` implements the [Document](https://developer.mozilla.org/en-US/docs/Web/API/Document) and [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) interfaces of Document Object Model(DOM).
 
-## Install
+## Installation
 ```sh
 $ go get -u github.com/Hunsin/go-htmlutil
 ```
 
-Documents and examples can be found in [GoDoc](https://godoc.org/github.com/Hunsin/go-htmlutil).
+Documents and examples can be found in [pkg.go.dev](https://pkg.go.dev/github.com/Hunsin/go-htmlutil).

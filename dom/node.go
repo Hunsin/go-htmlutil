@@ -7,6 +7,7 @@ import (
 	"golang.org/x/net/html"
 )
 
+// A Node represents the DOM Node interface.
 type Node interface {
 	TextContent() string
 }
@@ -19,8 +20,8 @@ func (d dom) TextContent() string {
 	case html.DoctypeNode, html.DocumentNode:
 		return ""
 	}
+	// else html.ElementNode
 
-	// elementNode
 	var ss []string
 	util.Walk(d.Node, func(n *html.Node) bool {
 		if n.Type == html.TextNode {

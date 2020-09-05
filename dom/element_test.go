@@ -70,6 +70,7 @@ func TestNextElementSibling(t *testing.T) {
 	for ; li != nil; li = li.NextElementSibling() {
 		if li.TagName() != "LI" || li.TextContent() != txt[0] {
 			t.Error("NextElementSibling failed")
+			t.Log("got element:", li)
 		}
 		txt = txt[1:]
 	}
@@ -96,7 +97,8 @@ func TestPreviousElementSibling(t *testing.T) {
 	txt := []string{"Coke", "Milk", "Tea", "Coffee"}
 	for ; li != nil; li = li.PreviousElementSibling() {
 		if li.TagName() != "LI" || li.TextContent() != txt[0] {
-			t.Error("NextElementSibling failed")
+			t.Error("PreviousElementSibling failed")
+			t.Log("got element:", li)
 		}
 		txt = txt[1:]
 	}

@@ -8,6 +8,8 @@ import (
 	"golang.org/x/net/html"
 )
 
+// A Document represents the DOM Document interface, which is the
+// entry point a web page's content.
 type Document interface {
 	Node
 
@@ -74,6 +76,8 @@ func (d dom) Title() string {
 	return ""
 }
 
+// Fetch sends the HTTP request and returns the DOM tree parsed
+// from the response.
 func Fetch(req *http.Request) (Document, error) {
 	r, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -84,6 +88,7 @@ func Fetch(req *http.Request) (Document, error) {
 	return Parse(r.Body)
 }
 
+// Parse returns the DOM tree parsed from the given Reader.
 func Parse(r io.Reader) (Document, error) {
 	n, err := html.Parse(r)
 	if err != nil {

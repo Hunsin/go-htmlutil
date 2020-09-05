@@ -7,7 +7,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-// An Element represents the HTML DOM element.
+// An Element represents the DOM Element interface.
 type Element interface {
 	Node
 
